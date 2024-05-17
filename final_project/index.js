@@ -1,35 +1,56 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const session = require('express-session')
-const customer_routes = require('./router/auth_users.js').authenticated;
-const genl_routes = require('./router/general.js').general;
+let books = require("./booksdb.js");
+let isValid = require("./auth_users.js").isValid;
+let users = require("./auth_users.js").users;
+const public_users = express.Router();
 
-const app = express();
 
-app.use(express.json());
-
-app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
-
-app.use("/customer/auth/*", function auth(req,res,next){
-    if(req.session.authorization) {
-        token = req.session.authorization['accessToken'];
-        jwt.verify(token, "access",(err,user)=>{
-            if(!err){
-                req.user = user;
-                next();
-            }
-            else{
-                return res.status(403).json({message: "User not authenticated"})
-            }
-         });
-     } else {
-         return res.status(403).json({message: "User not logged in"})
-     }
+public_users.post("/register", (req,res) => {
+  //Write your code here
+  return res.status(300).json({message: "Yet to be implemented"});
 });
- 
-const PORT =5000;
 
-app.use("/customer", customer_routes);
-app.use("/", genl_routes);
+// Get the book list available in the shop
+public_users.get('/',function (req, res) {
+    res.send(JSON.stringify(books,null,4));
+});
 
-app.listen(PORT,()=>console.log("Server is running"));
+// Get book details based on ISBN
+public_users.get('/isbn/:isbn',function (req, res) {
+    const isbn = req.params.isbn;
+    res.send(books[isbn]);
+ });
+  
+// Get book details based on author
+public_users.get('/author/:author',function (req, res) {
+    const author = req.params.author;
+    let result = "";
+    books.params.forEach(function(book){
+        if (book.author == author) {
+            result = book.isbn;
+        }
+    });
+    /*foreach (book in books) {
+        if (book.author == author) {
+            result = book.isbn;
+        }
+    }*/
+    /*let filteredbooks = books.filter((book)=>{
+        return book.author === author
+      });*/
+    res.send(result);
+});
+
+// Get all books based on title
+public_users.get('/title/:title',function (req, res) {
+    const title = req.params.title;
+    res.send(books[title]);
+});
+
+//  Get book review
+public_users.get('/review/:isbn',function (req, res) {
+  //Write your code here
+  return res.status(300).json({message: "Yet to be implemented"});
+});
+
+module.exports.general = public_users;
