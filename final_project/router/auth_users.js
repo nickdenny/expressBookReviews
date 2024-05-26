@@ -65,6 +65,24 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     //return res.status(200).send("User successfully logged in");
 });
 
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const isbn = req.params.isbn;
+    const username = req.body.username;
+
+    let book = books[isbn];
+    let reviews = book.reviews[username];
+    if (book.reviews[username]) {
+        delete book.reviews[username];
+    }
+
+    /*for (let key in books){
+        bookArray[key] = books[key].title;
+    }*/
+    return res.status(200).send(book);
+    //return res.status(200).send("User successfully logged in");
+});
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
