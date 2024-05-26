@@ -5,6 +5,7 @@ const customer_routes = require('./router/auth_users.js').authenticated;
 const genl_routes = require('./router/general.js').general;
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
@@ -25,7 +26,7 @@ app.use("/customer/auth/*", function auth(req,res,next){
      } else {
          return res.status(403).json({message: "User not logged in"})
      }
-    
+    /*
     const username = req.body.username;
     const password = req.body.password;
     if (!username || !password) {
@@ -41,7 +42,7 @@ app.use("/customer/auth/*", function auth(req,res,next){
     return res.status(200).send("User successfully logged in");
     } else {
       return res.status(208).json({message: "Invalid Login. Check username and password"});
-    }
+    }*/
 });
  
 const PORT =5000;
