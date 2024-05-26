@@ -45,9 +45,24 @@ regd_users.post("/login", (req,res) => {
 });
 
 // Add a book review
-regd_users.post("/auth/review/:isbn", (req, res) => {
+regd_users.put("/auth/review/:isbn", (req, res) => {
     const isbn = req.params.isbn;
-    return res.status(200).send("User successfully logged in");
+    const username = req.body.username;
+    const review = req.body.review;
+
+    let book = books[isbn];
+    let reviews = book.reviews[username];
+    if (review) {
+        book.reviews[username] = review;
+    } else {
+        book.reviews.add[username, review];
+    }
+
+    /*for (let key in books){
+        bookArray[key] = books[key].title;
+    }*/
+    return res.status(200).send(book);
+    //return res.status(200).send("User successfully logged in");
 });
 
 module.exports.authenticated = regd_users;
