@@ -45,8 +45,8 @@ regd_users.post("/login", (req,res) => {
 });
 
 // Add a book review
-regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
+regd_users.put("/customer/auth/review/:isbn", (req, res) => {
+    //const isbn = req.params.isbn;
   return res.status(300).json({message: "Yet to be implemented"});
 });
 
