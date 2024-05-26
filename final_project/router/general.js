@@ -56,7 +56,7 @@ public_users.get('/',function (req, res) {
         for (let key in books){
             bookArray[key] = books[key].title;
         }
-        res.send(bookArray);
+        res.send(books);
         })
     
 });
@@ -90,7 +90,8 @@ public_users.get('/author/:author',function (req, res) {
                 bookArray[key] = books[key];
             }
         }
-        res.send(bookArray);
+        let booksbyauthor = {"booksbyauthor": bookArray}
+        res.send(booksbyauthor);
     })
 });
 
